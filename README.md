@@ -96,14 +96,14 @@ qqnorm(rStuRes, datax = TRUE, main="Normal Probability Plot - Base Model")
 qqline(rStuRes, datax = TRUE)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ``` r
 plot(fitted.values(model), rstudent(model), xlab = "y", ylab = "R-Student residuals", main = "Response vs. Residual Plot - Base Model")
 abline(c(0,0), col="red")
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
 
 The base model has 12 regression coefficients noted above. The Adjusted R^sq value of 0.73 suggests the multiple linear regression model fits the data moderately well. F-test yields a high F-statistic and low p-value, so at least one of the regressors linearly predicts median house value, meaning the base model is useful.
 
@@ -199,14 +199,14 @@ qqnorm(rStuRes, datax = TRUE, main="Normal Probability Plot - Significant Intera
 qqline(rStuRes, datax = TRUE)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 plot(fitted.values(model_interact_improved), rstudent(model_interact_improved), xlab = "y", ylab = "R-Student residuals", main = "Response vs. Residual Plot - Significant Interaction Terms")
 abline(c(0,0), col="red")
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->
 
 ``` r
 model_of_others = lm(medv ~ crim + zn + indus + chas + nox + rm + age + dis + rad + tax + ptratio + lstat + rm*tax + rm*ptratio + dis*rad)
@@ -231,14 +231,14 @@ qqnorm(rStuRes, datax = TRUE, main="Normal Probability Plot - ln(y)")
 qqline(rStuRes, datax = TRUE)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 plot(fitted.values(model_y_ln), rstudent(model_y_ln), xlab = "y", ylab = "R-Student residuals", main = "Response vs. Residual Plot - ln(y)")
 abline(c(0,0), col="red")
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
 
 ``` r
 medvRep = 1/medv
@@ -248,14 +248,14 @@ qqnorm(rStuRes, datax = TRUE, main="Normal Probability Plot - 1/y")
 qqline(rStuRes, datax = TRUE)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
 
 ``` r
 plot(fitted.values(model_y_inv), rstudent(model_y_inv), xlab = "y", ylab = "R-Student residuals", main = "Response vs. Residual Plot - 1/y")
 abline(c(0,0), col="red")
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-3-4.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-4.png)<!-- -->
 
 ``` r
 medvRep = medv^0.5
@@ -265,14 +265,14 @@ qqnorm(rStuRes, datax = TRUE, main="Normal Probability Plot - root(y)")
 qqline(rStuRes, datax = TRUE)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-3-5.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-5.png)<!-- -->
 
 ``` r
 plot(fitted.values(model_y_sqrt), rstudent(model_y_sqrt), xlab = "y", ylab = "R-Student residuals", main = "Response vs. Residual Plot - root(y)")
 abline(c(0,0), col="red")
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-3-6.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-6.png)<!-- -->
 
 ``` r
 medvRep = medv^2
@@ -282,21 +282,21 @@ qqnorm(rStuRes, datax = TRUE, main="Normal Probability Plot - y^2")
 qqline(rStuRes, datax = TRUE)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-3-7.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-7.png)<!-- -->
 
 ``` r
 plot(fitted.values(model_y_sq), rstudent(model_y_sq), xlab = "y", ylab = "R-Student residuals", main = "Response vs. Residual Plot - y^2")
 abline(c(0,0), col="red")
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-3-8.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-8.png)<!-- -->
 
 ``` r
 library(MASS)
 bc = boxcox(medv ~ crim + zn + indus + chas + nox + rm + age + dis + rad + tax + ptratio + lstat)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-3-9.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-9.png)<!-- -->
 
 ``` r
 lambda <- bc$x[which.max(bc$y)]
@@ -410,14 +410,14 @@ qqnorm(rStuRes, datax = TRUE, main="Normal Probability Plot - POLY (Part d)")
 qqline(rStuRes, datax = TRUE)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 plot(fitted.values(polymodel), rstudent(polymodel), xlab = "y", ylab = "R-Student residuals", main = "Response vs. Residual Plot - POLY (Part d)")
 abline(c(0,0), col="red")
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
 To build my polynomial model, I first regressed ALL quadratic, linear, and interaction terms using the 6 chosen regressors and response (full model not shown). After comparing contributions of each term on the model using t-statistics, I eliminated all terms that were not significant at the 5% level, meaning terms that likely have no effective contribution to the prediction of median house value. Given the principle of parsimony, I settled on a more modest polynomial model of degree 2 with 11 terms (each of these terms contributed significantly to the polynomial regression model at the 5% level). Upon plotting the normality and residuals plots for the polynomial model, we see a minor problem with the normality assumption as the tails deviate from the line, while constant variance is fulfilled.
 
@@ -438,14 +438,14 @@ qqnorm(rStuRes, datax = TRUE, main="Normal Probability Plot POLY (Part f)")
 qqline(rStuRes, datax = TRUE)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 plot(fitted.values(f_poly_model), rstudent(f_poly_model), xlab = "y", ylab = "R-Student residuals", main = "Response vs. Residual Plot - POLY (Part f)")
 abline(c(0,0), col="red")
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
 
 ``` r
 medvRep = sqrt(medv)
@@ -455,21 +455,21 @@ qqnorm(rStuRes, datax = TRUE, main="Normal Probability Plot TRANSFORMED POLY (Pa
 qqline(rStuRes, datax = TRUE)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-7-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-3.png)<!-- -->
 
 ``` r
 plot(fitted.values(trans_f_poly_model), rstudent(trans_f_poly_model), xlab = "y", ylab = "R-Student residuals", main = "Response vs. Residual Plot - TRANSFORMED POLY (Part f)")
 abline(c(0,0), col="red")
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-7-4.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-4.png)<!-- -->
 
 ``` r
 library(MASS)
 bc = boxcox(medv ~ nox + rm +  dis + rad + lstat  + tax + dis*rad + crim*rm + zn*tax + rad*tax + rm*ptratio + tax*ptratio + crim*lstat + rm*lstat + dis*lstat + tax*lstat + SQdis + SQrad + SQlstat)
 ```
 
-![](housing-data-analysis_files/figure-gfm/unnamed-chunk-7-5.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-5.png)<!-- -->
 
 ``` r
 lambda2 <- bc$x[which.max(bc$y)]
