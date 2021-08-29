@@ -1,14 +1,6 @@
 Math 50 Fall 2017, Final Project
 ================
 
-**NOTE: For your homework download and use the template**
-(<https://math.dartmouth.edu/~m50f17/FinalProject.Rmd>)
-
-**Read the green comments in the rmd file to see where your answers
-should go.**
-
-#### *Note: Read the question carefully and write your answers briefly supporting your conclusions with plots and statistical quantities. You need to submit the html file and the Rmd file. Before submitting verify your html file that it includes all necessary plots and also check all necessary values are printed in the html. Note that the questions below are open ended. There is no fixed “correct” answer. Try to use various ideas and techniques we have seen during the class. *
-
 #### In this project you will use the below data for house values in the city of Boston.
 
 The `Boston` data frame has 506 rows and 13 columns.
@@ -43,15 +35,10 @@ otherwise).
 
 `medv`: median value of the house in $1000s.
 
-Your goal is to develop a model that predicts median value of the house
-(medv). You start with the multiple linear regression model using all of
-the 12 regressors (this is your base model). Answer the below questions.
-In all parts write your model clearly. In addition to writing your
-justification clearly, print the critical values and display the plots
-you use.
+Your goal is to develop a model that predicts median value of the house (medv). You start with the multiple linear regression model using all of the 12 regressors (this is your base model). Answer the below questions.
+In all parts write your model clearly. In addition to writing your justification clearly, print the critical values and display the plots you use.
 
-1.  Fit a multiple linear regression model using all 12 regressors (base
-    model).
+1.  Fit a multiple linear regression model using all 12 regressors (base model).
 
 ``` r
 data = read.table("https://math.dartmouth.edu/~m50f17/Boston.csv", header=T, sep=",")
@@ -73,7 +60,6 @@ model = lm(medv ~ crim + zn + indus + chas + nox + rm + age + dis + rad + tax + 
 summary(model)
 ```
 
-    ## 
     ## Call:
     ## lm(formula = medv ~ crim + zn + indus + chas + nox + rm + age + 
     ##     dis + rad + tax + ptratio + lstat)
@@ -119,24 +105,15 @@ abline(c(0,0), col="red")
 
 ![](README_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
 
-The base model has 12 regression coefficients noted above. The Adjusted
-R^sq value of 0.73 suggests the multiple linear regression model fits
-the data moderately well. F-test yields a high F-statistic and low
-p-value, so at least one of the regressors linearly predicts median
-house value, meaning the base model is useful.
+The base model has 12 regression coefficients noted above. The Adjusted R^sq value of 0.73 suggests the multiple linear regression model fits the data moderately well. F-test yields a high F-statistic and low p-value, so at least one of the regressors linearly predicts median house value, meaning the base model is useful.
 
-2.  Give a model that uses base model and includes interaction terms
-    crim×age, rm×tax, rm×ptratio, tax×ptratio, nox×crim, nox×age and 3
-    additional interaction terms of your choice. Check if any of these
-    interaction terms contribute to the model. Eliminate the rest of the
-    interaction terms.
+2.  Give a model that uses base model and includes interaction terms crim×age, rm×tax, rm×ptratio, tax×ptratio, nox×crim, nox×age and 3 additional interaction terms of your choice. Check if any of these interaction terms contribute to the model. Eliminate the rest of the interaction terms.
 
 ``` r
 model_interact = lm(medv ~ crim + zn + indus + chas + nox + rm + age + dis + rad + tax + ptratio + lstat + crim*age + rm*tax + rm*ptratio + tax*ptratio + nox*crim + nox*age + crim*lstat + dis*rad + zn*tax)
 summary(model_interact)
 ```
 
-    ## 
     ## Call:
     ## lm(formula = medv ~ crim + zn + indus + chas + nox + rm + age + 
     ##     dis + rad + tax + ptratio + lstat + crim * age + rm * tax + 
@@ -181,9 +158,7 @@ summary(model_interact)
 ``` r
 model_interact_improved = lm(medv ~ crim + zn + indus + chas + nox + rm + age + dis + rad + tax + ptratio + lstat + rm*tax + rm*ptratio + dis*rad)
 summary(model_interact_improved)
-```
-
-    ## 
+``` 
     ## Call:
     ## lm(formula = medv ~ crim + zn + indus + chas + nox + rm + age + 
     ##     dis + rad + tax + ptratio + lstat + rm * tax + rm * ptratio + 
@@ -244,28 +219,9 @@ f_stat = SSr_ommited_terms_given_others/r/MSres
 f_val = qf(0.95,r,n-(k+1))
 ```
 
-I picked my additional interaction terms as crim\*lstat (maybe lower
-status leads to more crime?), dis\*rad (both pertain to travel), and
-crim\*ptratio (less contact between students and teacher hurting futures
-of citizens?). Running t-tests on the regression coefficients for the
-interaction terms will show which interaction terms are likely
-significant to the model or not. crim\*age, tax\*ptratio, crim\*nox,
-nox\*age, crim\*lstat, and zn\*tax gave insignificant results at the 5%
-alpha level (high p-values and low magnitude t-statistics), thus we
-eliminate them from the model. Note that upon running a joint
-significance test on the three interaction terms being removed I
-obtained a F-stat of 4.2070836 and F-val of 2.6232126. This significant
-result indicates that although individually the interaction terms may
-not be significant to the model, together they actually could have
-slightly improved the model. Studying the normality and residual plots
-before and after using interaction terms in the model, we see little to
-no improvement in the constant variance and normality (except slightly
-smaller tails) assumptions.
+I picked my additional interaction terms as crim\*lstat (maybe lower status leads to more crime?), dis\*rad (both pertain to travel), and crim\*ptratio (less contact between students and teacher hurting futures of citizens?). Running t-tests on the regression coefficients for the interaction terms will show which interaction terms are likely significant to the model or not. crim\*age, tax\*ptratio, crim\*nox, nox\*age, crim\*lstat, and zn\*tax gave insignificant results at the 5% alpha level (high p-values and low magnitude t-statistics), thus we eliminate them from the model. Note that upon running a joint significance test on the three interaction terms being removed I obtained a F-stat of 4.2070836 and F-val of 2.6232126. This significant result indicates that although individually the interaction terms may not be significant to the model, together they actually could have slightly improved the model. Studying the normality and residual plots before and after using interaction terms in the model, we see little to no improvement in the constant variance and normality (except slightly smaller tails) assumptions.
 
-3.  Try various transformations on the base model, then propose a
-    transformation (on prediction variable medv or on regressors) that
-    you think it might be helpful to linearize the model (or to improve
-    it). Then fit a model using this transformation.
+3.  Try various transformations on the base model, then propose a transformation (on prediction variable medv or on regressors) that you think it might be helpful to linearize the model (or to improve it). Then fit a model using this transformation.
 
 ``` r
 medvRep = log(medv)
@@ -346,44 +302,17 @@ bc = boxcox(medv ~ crim + zn + indus + chas + nox + rm + age + dis + rad + tax +
 lambda <- bc$x[which.max(bc$y)]
 ```
 
-After testing ln(y), 1/y, root(y), and y^2 as transformations on the
-response variable (plots shown above), the new normality plots did not
-make many improvements on the normality assumption. Moreover, instead of
-the residuals following the ideal line in the normality plot, ln(y) and
-1/y transformation models displayed problematic heavy-tailed
-distributions, while root(y) and y^2 exhibited a practically identical
-normality plot to the base model (minor differences in tails). However,
-the residual plots for the ln(y) and root(y) transformations showed
-visable improvements in the constant-variance assumption from the
-original model. Finally for response variable transformations, I tried
-the Box-Cox method and evaluated an SSres-minimizing value of lambda =
-0.1. Since lambda is so close to 0, it essentially suggests the ln(y)
-transformed model as the best choice (normality and residual plots are
+After testing ln(y), 1/y, root(y), and y^2 as transformations on the response variable (plots shown above), the new normality plots did not make many improvements on the normality assumption. Moreover, instead of the residuals following the ideal line in the normality plot, ln(y) and 1/y transformation models displayed problematic heavy-tailed distributions, while root(y) and y^2 exhibited a practically identical normality plot to the base model (minor differences in tails). However, the residual plots for the ln(y) and root(y) transformations showed visible improvements in the constant-variance assumption from the original model. Finally for response variable transformations, I tried the Box-Cox method and evaluated an SSres-minimizing value of lambda = 0.1. Since lambda is so close to 0, it essentially suggests the ln(y) transformed model as the best choice (normality and residual plots are
 nearly identical from before)
 
-Finally I plotted externally studentized residuals against each
-regressor variable (graphs not shown due to shear number of them). None
-of the plots display a clear nonlinear figure, indicating we cannot be
-sure at this point that higher orders of regressors are necessary out of
-misspecification. However, some regression plots have problems with the
-constant-variance assumption, particularly for regressor crim (variance
-increases w/ regressor), indus (variance increases, decreases, then
-increases w/ regressor), rm (variance decreases then increases w/
-regressor), and dis (variance increases w/ regressor).
+Finally I plotted externally studentized residuals against each regressor variable (graphs not shown due to shear number of them). None of the plots display a clear nonlinear figure, indicating we cannot be sure at this point that higher orders of regressors are necessary out of mis-specification. However, some regression plots have problems with the constant-variance assumption, particularly for regressor crim (variance increases w/ regressor), indus (variance increases, decreases, then increases w/ regressor), rm (variance decreases then increases w/ regressor), and dis (variance increases w/ regressor).
 
-4.  Eliminate 6 of the regressors from the base model, that (you think)
-    are the least significant ones. (You can do a subjective choice,
-    considering the nature of the data, as long as you support it. For
-    example you can make a few joint significance test to support your
-    choice). Now using the remaining 6 regressors propose a polynomial
-    model that includes quadratic terms and interaction terms. Then fit
-    this model.
+4.  Eliminate 6 of the regressors from the base model, that (you think) are the least significant ones. (You can do a subjective choice, considering the nature of the data, as long as you support it. For example you can make a few joint significance test to support your choice). Now using the remaining 6 regressors propose a polynomial model that includes quadratic terms and interaction terms. Then fit this model.
 
 ``` r
 summary(model)
 ```
 
-    ## 
     ## Call:
     ## lm(formula = medv ~ crim + zn + indus + chas + nox + rm + age + 
     ##     dis + rad + tax + ptratio + lstat)
@@ -414,23 +343,7 @@ summary(model)
     ## Multiple R-squared:  0.7343, Adjusted R-squared:  0.7278 
     ## F-statistic: 113.5 on 12 and 493 DF,  p-value: < 2.2e-16
 
-Based on t-tests on each of the 12 regressors in the model, we conclude
-at the 5% level that regression coefficients for indus and age are
-likely 0, indicating that they are not very useful in predicting median
-value of houses. Although t-tests for all other regressors yielded
-significant results, we see that the next largest p-vals (in order) are
-for regressors chas, tax, zn, and crim. \[Consider how if confidence
-level alpha were to lower, we would be then able to eliminate these
-regressors in this sequence\]. Stepping back from the statistics,
-eliminating these 6 regressors makes some intuitive sense because it
-doesn’t make sense why towns with expensive houses would necessarily
-have largely retail or non-retail stores, or why having either historic
-or modern homes really matters to house value (at least in my mind). I
-was surprised about having to remove crime rate from the model because I
-thought towns with generally more valuable homes would experience more
-robbery, but I suppose accessibility to a metropolitan area could
-perhaps be crucial to obtaining high-paying jobs, leading to
-construction and ownership of valuable homes.
+Based on t-tests on each of the 12 regressors in the model, we conclude at the 5% level that regression coefficients for indus and age are likely 0, indicating that they are not very useful in predicting median value of houses. Although t-tests for all other regressors yielded significant results, we see that the next largest p-values (in order) are for regressors chas, tax, zn, and crim. \[Consider how if confidence level alpha were to lower, we would be then able to eliminate these regressors in this sequence\]. Stepping back from the statistics, eliminating these 6 regressors makes some intuitive sense because it doesn’t make sense why towns with expensive houses would necessarily have largely retail or non-retail stores, or why having either historic or modern homes really matters to house value (at least in my mind). I was surprised about having to remove crime rate from the model because I thought towns with generally more valuable homes would experience more robbery, but I suppose accessibility to a metropolitan area could perhaps be crucial to obtaining high-paying jobs, leading to construction and ownership of valuable homes.
 
 ``` r
 model_of_others = lm(medv ~ crim + zn + chas + nox + rm + dis + rad + tax + ptratio + lstat)
@@ -449,15 +362,7 @@ f_stat_2 = SSr_6_removed_given_others/r/MSres
 f_val_2 = qf(0.95,r,n-(k+1))
 ```
 
-After removing indus and age from the model, my joint significance test
-gave an F-stat of 0.0604773 versus F-val of 3.0138989. We fail to reject
-the null hypothesis and conclude that jointly, the indus and age do not
-improve the model at the 5% level and are ok to remove. But after
-removing all 6 regressors together I obtained an F-stat of 7.7677486
-versus F-val of 2.1168478. This time we reject the null hypothesis and
-claim that the regressors would better not be jointly omitted from the
-model. We will still remove these 6 regressors and move onwards, perhaps
-interaction and quadratic terms can improve the model.
+After removing indus and age from the model, my joint significance test gave an F-stat of 0.0604773 versus F-val of 3.0138989. We fail to reject the null hypothesis and conclude that jointly, the indus and age do not improve the model at the 5% level and are ok to remove. But after removing all 6 regressors together I obtained an F-stat of 7.7677486 versus F-val of 2.1168478. This time we reject the null hypothesis and claim that the regressors would better not be jointly omitted from the model. We will still remove these 6 regressors and move onwards, perhaps interaction and quadratic terms can improve the model.
 
 ``` r
 polyfit = lm(medv~polym(nox,rm,dis,rad,ptratio,lstat,degree=2))
@@ -467,7 +372,6 @@ polymodel = lm(medv ~ nox + rm  + dis + lstat + SQ_dis + SQ_lstat + nox*rm + rm*
 summary(polymodel)
 ```
 
-    ## 
     ## Call:
     ## lm(formula = medv ~ nox + rm + dis + lstat + SQ_dis + SQ_lstat + 
     ##     nox * rm + rm * ptratio + dis * rad + dis * lstat + rad * 
@@ -515,52 +419,13 @@ abline(c(0,0), col="red")
 
 ![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
-To build my polynomial model, I first regressed ALL quadratic, linear,
-and interaction terms using the 6 chosen regressors and response (full
-model not shown). After comparing contributions of each term on the
-model using t-statistics, I eliminated all terms that were not
-significant at the 5% level, meaning terms that likely have no effective
-contribution to the prediction of median house value. Given the
-principle of parsimony, I settled on a more modest polynomial model of
-degree 2 with 11 terms (each of these terms contributed significantly to
-the polynomial regression model at the 5% level). Upon plotting the
-normality and residuals plots for the polynomial model, we see a minor
-problem with the normality assumption as the tails deviate from the
-line, while constant variance is fulfilled.
+To build my polynomial model, I first regressed ALL quadratic, linear, and interaction terms using the 6 chosen regressors and response (full model not shown). After comparing contributions of each term on the model using t-statistics, I eliminated all terms that were not significant at the 5% level, meaning terms that likely have no effective contribution to the prediction of median house value. Given the principle of parsimony, I settled on a more modest polynomial model of degree 2 with 11 terms (each of these terms contributed significantly to the polynomial regression model at the 5% level). Upon plotting the normality and residuals plots for the polynomial model, we see a minor problem with the normality assumption as the tails deviate from the line, while constant variance is fulfilled.
 
-5.  Compare the performance of the models in part (a) to (d). Look at
-    various diagnostics we have seen. Also check for normality and
-    constant variance violations. Make a comparison and support your
-    comments with plots and statistics.
+5.  Compare the performance of the models in part (a) to (d). Look at various diagnostics we have seen. Also check for normality and constant variance violations. Make a comparison and support your comments with plots and statistics.
 
-The base model from part a) was the most basic multiple linear
-regression model, resulting in a moderate fit to the data with an R-sq
-of around 0.7. The resulting normality plot indicated that errors may
-not be normally distributed, while the residual plot displayed
-non-constant variance (low variance in errors near the center and higher
-outwards). We sought improvement in the model by testing for the
-existence of significant interaction terms, leading to our model in part
-b). Although the increase R-sq to approx 0.8 suggests these additional
-terms improved the how well the regressors explain variation in medv,
-unfortunately I found no change in the normality of the errors in the
-new model. Since there continues to exist non-constant variance in the
-residual plot, the model is potentially in need of a transformation.
-Through trial and error in part c), I settled on ln(y) as a
-transformation on response. Though R-sq barely changed to 0.78, the
-tails on the normal probability plot tend a little closer to the line
-and the residual plot fits within horizon bands better, suggesting
-improvements to our error assumptions and allowing us to trust this
-model’s predictions more. Ultimately, the polynomial plot best fitted
-the data as its variety of regressors explained nearly 85% of the
-variation in medv, while also demonstrating greater normality in error
-(slightly flatter tails on the normality plot) and closer constance of
-variance of error (residuals are contained in relatively horizontal
-lines, ignoring potential outliers).
+The base model from part a) was the most basic multiple linear regression model, resulting in a moderate fit to the data with an R-sq of around 0.7. The resulting normality plot indicated that errors may not be normally distributed, while the residual plot displayed non-constant variance (low variance in errors near the center and higher outwards). We sought improvement in the model by testing for the existence of significant interaction terms, leading to our model in part b). Although the increase R-sq to approx 0.8 suggests these additional terms improved the how well the regressors explain variation in medv, unfortunately I found no change in the normality of the errors in the new model. Since there continues to exist non-constant variance in the residual plot, the model is potentially in need of a transformation. Through trial and error in part c), I settled on ln(y) as a transformation on response. Though R-sq barely changed to 0.78, the tails on the normal probability plot tend a little closer to the line and the residual plot fits within horizon bands better, suggesting improvements to our error assumptions and allowing us to trust this model’s predictions more. Ultimately, the polynomial plot best fitted the data as its variety of regressors explained nearly 85% of the variation in medv, while also demonstrating greater normality in error (slightly flatter tails on the normality plot) and closer constance of variance of error (residuals are contained in relatively horizontal lines, ignoring potential outliers).
 
-6.  Now considering all of the above, propose a new model different than
-    the one in part a (try mixture of the suggestions above). Fit your
-    model. Comment on overall adequacy of your model comparing with the
-    ones above.
+6.  Now considering all of the above, propose a new model different than the one in part a (try mixture of the suggestions above). Fit your model. Comment on overall adequacy of your model comparing with the ones above.
 
 ``` r
 polyfit2 = lm(medv~polym(crim,zn,nox,rm,dis,rad,tax,ptratio,lstat,degree=2))
@@ -614,7 +479,6 @@ model_box_cox_2 = lm(medv ~ nox + rm +  dis + rad + lstat  + tax + dis*rad + cri
 summary(trans_f_poly_model)
 ```
 
-    ## 
     ## Call:
     ## lm(formula = medvRep ~ nox + rm + dis + rad + lstat + tax + dis * 
     ##     rad + crim * rm + zn * tax + rad * tax + rm * ptratio + tax * 
@@ -657,44 +521,14 @@ summary(trans_f_poly_model)
     ## Multiple R-squared:  0.8635, Adjusted R-squared:  0.8573 
     ## F-statistic: 138.9 on 22 and 483 DF,  p-value: < 2.2e-16
 
-For this new and different model, I first analyzed the base model from
-part a) and removed regressors indus and age because they have absurdly
-high p-val’s for their respective regressor coefficient t-tests,
-suggesting very little ability to predict medv compared to all other
-regressors. \[Due to conflict with polynomial regression in the
-following step, I also had to remove regressor chas due to compiler
-error, please check to confirm you also get this strange error when
-including chas and trying to run poly w/ degree 2 or 3\]. This is
-probably a safer choice for regressor removal than what was previously
-done in part d) where I had to remove 4 additional regressors that
-arguably predicted medv quite well individually, (and mildly well
-jointly). Using the 9 other regressors, I studied interaction and
-quadratic terms by creating a full polynomial regression model of degree
-2. The polynomial is far too complex, thus I selected only terms with
-significance to the model at the 5% level that are actually worth
-keeping. Lastly, after assessing the normal probability and residual
-plots, I felt that a transformation was needed and found through
-experimentation that root(y) reasonably improved the model’s variance of
-errors (variance no longer increases as much when fitted value
-increases). Box-Cox method actually produced lambda of 0.343, which
-appears close enough to 0.5 to validate the use of response
-transformation root(y). The R-sq value of 86% suggests that this
-transformed polynomial model explains the variability in medv
-considerably well, just as well as the polynomial model from part d) if
-not slightly better.
+For this new and different model, I first analyzed the base model from part a) and removed regressors indus and age because they have absurdly high p-val’s for their respective regressor coefficient t-tests, suggesting very little ability to predict medv compared to all other regressors. \[Due to conflict with polynomial regression in the following step, I also had to remove regressor chas due to compiler error, please check to confirm you also get this strange error when including chas and trying to run poly w/ degree 2 or 3\]. This is probably a safer choice for regressor removal than what was previously done in part d) where I had to remove 4 additional regressors that arguably predicted medv quite well individually, (and mildly well jointly). Using the 9 other regressors, I studied interaction and quadratic terms by creating a full polynomial regression model of degree 2. The polynomial is far too complex, thus I selected only terms with significance to the model at the 5% level that are actually worth keeping. Lastly, after assessing the normal probability and residual plots, I felt that a transformation was needed and found through experimentation that root(y) reasonably improved the model’s variance of errors (variance no longer increases as much when fitted value increases). Box-Cox method actually produced lambda of 0.343, which appears close enough to 0.5 to validate the use of response transformation root(y). The R-sq value of 86% suggests that this transformed polynomial model explains the variability in medv considerably well, just as well as the polynomial model from part d) if not slightly better.
 
-7.  Using your model in (f) detect 3 points from the data which you
-    think are most probably outliers but not influential points. Detect
-    pure leverage points and influential points (if no such points then
-    say not detected, if there are more then 3 then write the most
-    significant 3). Calculate the R-Student residuals at the points you
-    find in this part.
+7.  Using your model in (f) detect 3 points from the data which you think are most probably outliers but not influential points. Detect pure leverage points and influential points (if no such points then say not detected, if there are more then 3 then write the most significant 3). Calculate the R-Student residuals at the points you find in this part.
 
 ``` r
 library(olsrr)
 ```
 
-    ## 
     ## Attaching package: 'olsrr'
 
     ## The following object is masked from 'package:MASS':
@@ -730,25 +564,9 @@ cbind(r_stu_resids)
     ## 415    0.1330545
     ## 354   -0.4952076
 
-Based on the Studentized Residuals vs Leverage Plot for my Transformed
-Polynomial Model from part f), I found that observations 392, 402, and
-410 are non-influential outliers because they have high magnitude
-residuals but low leverage (remoteness in x-space). These observations
-lie in the top and bottom left regions of the plot; even though the top
-and bottom rows contain outliers due to high magnitude residuals, the
-top right and bottom right corners specifically contain influential
-points due to observations also having high leverage. Three particularly
-influential points are observations 381, 365, and 369. Pure leverage
-points have high remoteness in x-space but low residuals because they
-follow the regression model, lieing in the middle-left region. Three
-purely leverage points certainly are observations 411, 415, and 354. As
-expected, the outliers and influential points have relatively larger
-r-student residuals than purely leverage points, as shown in the table
-above.
+Based on the Studentized Residuals vs Leverage Plot for my Transformed Polynomial Model from part f), I found that observations 392, 402, and 410 are non-influential outliers because they have high magnitude residuals but low leverage (remoteness in x-space). These observations lie in the top and bottom left regions of the plot; even though the top and bottom rows contain outliers due to high magnitude residuals, the top right and bottom right corners specifically contain influential points due to observations also having high leverage. Three particularly influential points are observations 381, 365, and 369. Pure leverage points have high remoteness in x-space but low residuals because they follow the regression model, lieing in the middle-left region. Three purely leverage points certainly are observations 411, 415, and 354. As expected, the outliers and influential points have relatively larger r-student residuals than purely leverage points, as shown in the table above.
 
-8.  Check for multicollinearity in model part (a), part (d), and your
-    model in part (f). Compare the differences in multicollinearity and
-    discuss its possible causes.
+8.  Check for multicollinearity in model part (a), part (d), and your model in part (f). Compare the differences in multicollinearity and discuss its possible causes.
 
 ``` r
 library(car)
@@ -757,10 +575,9 @@ library(car)
     ## Loading required package: carData
 
 ``` r
-cat("\nPart a) Model VIF's:\n")
+cat("Part a) Model VIF's:\n")
 ```
 
-    ## 
     ## Part a) Model VIF's:
 
 ``` r
@@ -773,10 +590,9 @@ vif(model)
     ## 7.445301 9.002158 1.797060 2.870777
 
 ``` r
-cat("\nPart d) Model VIF's:\n")
+cat("Part d) Model VIF's:\n")
 ```
 
-    ## 
     ## Part d) Model VIF's:
 
 ``` r
@@ -789,10 +605,9 @@ vif(polymodel)
     ##  29.004271 126.520100  90.831195   7.671370   9.019528  22.000714
 
 ``` r
-cat("\nPart f) Model VIF's:\n")
+cat("Part f) Model VIF's:\n")
 ```
 
-    ## 
     ## Part f) Model VIF's:
 
 ``` r
@@ -808,22 +623,4 @@ vif(trans_f_poly_model)
     ##  lstat:crim    rm:lstat   dis:lstat   lstat:tax 
     ##   34.211429  148.732853    9.651420   63.214165
 
-High variance inflation factors were identified from part a), namely rad
-(7.45) and tax (9.00), suggesting an issue with multicollinearity and
-that regression coefficients may be inaccurate estimators for the model.
-However the VIF’s for the model in part a) pale in comparison to those
-in the polynomial models from parts d) and f). For part d)’s model, VIF
-is highest for regressor nox (127.97), and for part f)’s model, VIF is
-highest for interaction term rad\*tax (6048.43). Thus, all three models
-indicate problems with multicollinearity, especially with respect to the
-two polynomial models. While in part a) all VIF’s fell between 5 and 10,
-remarkably all but 2 VIF’s in part d) and all but 1 VIF in part f) are
-within 5 and 10. This may suggest our choice of utilizing polynomial
-models was the problem, as is expected. The introduction of
-squared-regressor terms for regressors with small ranges (dis and rad)
-may definitely have increased multicollinearity. One source of
-multicollinearity that probably is less of a concern here is the concept
-of an ‘overdefined model,’ since we have over 500 observations and under
-20 regressors in each model, although choosing a smaller subset of
-regressors could help decrease multicollinearity in the case of too many
-regressors.
+High variance inflation factors were identified from part a), namely rad (7.45) and tax (9.00), suggesting an issue with multicollinearity and that regression coefficients may be inaccurate estimators for the model. However the VIF’s for the model in part a) pale in comparison to those in the polynomial models from parts d) and f). For part d)’s model, VIF is highest for regressor nox (127.97), and for part f)’s model, VIF is highest for interaction term rad\*tax (6048.43). Thus, all three models indicate problems with multicollinearity, especially with respect to the two polynomial models. While in part a) all VIF’s fell between 5 and 10, remarkably all but 2 VIF’s in part d) and all but 1 VIF in part f) are within 5 and 10. This may suggest our choice of utilizing polynomial models was the problem, as is expected. The introduction of squared-regressor terms for regressors with small ranges (dis and rad) may definitely have increased multicollinearity. One source of multicollinearity that probably is less of a concern here is the concept of an ‘overdefined model,’ since we have over 500 observations and under 20 regressors in each model, although choosing a smaller subset of regressors could help decrease multicollinearity in the case of too many regressors.
