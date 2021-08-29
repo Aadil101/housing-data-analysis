@@ -1,7 +1,7 @@
 Math 50 Fall 2017, Final Project
 ================
 
-#### In this project you will use the below data for house values in the city of Boston.
+## In this project you will use the below data for house values in the city of Boston.
 
 The `Boston` data frame has 506 rows and 13 columns.
 “<https://math.dartmouth.edu/~m50f17/Boston.csv>”
